@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
+    slug = AutoSlugField(populate_from='title')
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     class Meta:
@@ -15,7 +16,7 @@ class Abs(models.Model):
     description = models.TextField(null=True,blank=True)
     amount = models.FloatField()
     date = models.DateField(auto_now=True)
-    slug = models.SlugField(unique=True)
+    slug = AutoSlugField(populate_from='title')
 
     class Meta:
         abstract = True

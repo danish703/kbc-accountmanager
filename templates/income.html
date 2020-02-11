@@ -13,6 +13,24 @@
  {% endblock %}
 
 {% block 'body' %}
+{% include 'component/message.html' %}
+  <h3>All Income</h3>
+  <table class="table">
+   <thead>
+     <th>Title</th>
+     <th>Amount</th>
+     <th>date</th>
+   <th>Action</th>
+   </thead>
+   {% for a in all %}
+    <tr>
+     <td>{{a.title}}</td>
+     <td>{{a.amount}}</td>
+     <td>{{a.date}}</td>
+     <td>del | edit </td>
+    </tr>
+   {% endfor %}
+  </table>
 
 {% endblock %}
 
