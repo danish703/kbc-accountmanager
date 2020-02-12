@@ -3,6 +3,8 @@ from django.views import View
 from .forms import IncomeCateogyForm,IncomeFrom
 from django.contrib import messages
 from .models import IncomeCategory,Income
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 # Create your views here.
 class IncomeCategoryView(View):
     template_name = 'income_category.html'
@@ -47,9 +49,23 @@ class IncomeAddView(View):
 
 class IncomeView(View):
     template_name = 'income.html'
-
     def get(self,request):
         context = {
-            'all':Income.objects.all()
+            'all':Income.objects.filter(category__in=IncomeCategory.objects.filter(user_id=request.user.id)  )
         }
         return render(request,self.template_name,context)
+
+class EditIncomeView(UpdateView):
+    template_name = 'edit_income.html'
+    form = IncomeFrom
+    fields = ['title','description','amount','image','category']
+    success_url = reverse_lazy('income')
+
+    def get_context_data(self, **kwargs):
+        context = super(EditIncomeView, self).get_context_data()
+        context['form']=IncomeFrom(self.request.user.id,instance=Income.objects.get(slug=self.kwargs['slug']))
+        return context
+
+    def get_object(self, queryset=None):
+        queryset=Income.objects.filter(slug=self.kwargs['slug'])
+        return super(EditIncomeView, self).get_object(queryset)

@@ -55,5 +55,5 @@ class ExpenseView(View):
     def get(self,request):
         context = {
             'all':Expenses.objects.all()
-        }
+          }
         return render(request,self.template_name,context)

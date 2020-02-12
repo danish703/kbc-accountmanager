@@ -27,7 +27,7 @@
      <td>{{a.title}}</td>
      <td>{{a.amount}}</td>
      <td>{{a.date}}</td>
-     <td>del | edit </td>
+     <td>del | <a href="{% url 'edit_income' a.slug %}"><i class="fa fa-edit"></i> </a> </td>
     </tr>
    {% endfor %}
   </table>

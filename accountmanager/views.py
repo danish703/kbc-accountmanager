@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class SignupView(View):
@@ -59,3 +59,8 @@ class DashboardView(LoginRequiredMixin,View):
     login_url = 'login'
     def get(self,request):
         return render(request,self.template_name)
+
+
+def signout(request):
+    logout(request)
+    return redirect('login')
